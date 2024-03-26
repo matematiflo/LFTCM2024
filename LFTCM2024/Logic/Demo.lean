@@ -81,8 +81,10 @@ a proposition is false, it has no terms.)
 /- First let's see how to *use* an implication statement;
 you already know how to do this. -/
 example (P Q : Prop) (hPQ : P → Q) (hP : P) : Q := by
-  apply hPQ
+  refine hPQ ?_
   exact hP
+  -- apply hPQ
+  -- exact hP
 
 /-
 So we can see `hPQ` as a function that eats a term of type `P` - i.e. a
