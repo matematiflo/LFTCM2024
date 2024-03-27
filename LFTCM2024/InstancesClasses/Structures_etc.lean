@@ -20,17 +20,17 @@ For example in the structure below `Point` bundles three coordinates together.
 -/
 
 @[ext]
-structure Point where
+structure Points where
   x : ℝ
   y : ℝ
   z : ℝ
 
-#check Point
+#check Points
 
 
 /- **Projections**: Given a point, we get access to its coordinates / projections. -/
-variable (a : Point)
-#check Point.x a
+variable (a : Points)
+#check Points.x a
 #check a.x
 #check a.y
 #check a.z
@@ -41,22 +41,22 @@ variable (a : Point)
 Tip: if you write `_` or `sorry` as the definition of a Point, a blue lightbulb will appear.
 Clicking it will give you the skeleton -/
 
-def myPoint1 : Point where
+def myPoint1 : Points where
   x := 1
   y := 2
   z := 3
 
 def myPoint2 :=
-  { x := 1, y := 2, z := 3 : Point }
+  { x := 1, y := 2, z := 3 : Points }
 
-def myPoint3 : Point :=
+def myPoint3 : Points :=
   { x := 1
     y := 2
     z := 3 }
 
-def myPoint4 : Point := ⟨1, 2, 3⟩
+def myPoint4 : Points := ⟨1, 2, 3⟩
 
-def myPoint5 := Point.mk 1 2 3
+def myPoint5 := Points.mk 1 2 3
 
 
 
@@ -64,74 +64,74 @@ def myPoint5 := Point.mk 1 2 3
 /- **Proving equality**:
 We can prove that two points are equal using the `ext` tactic. -/
 
-example (a b : Point) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
+example (a b : Points) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
     a = b := by
   ext
   all_goals assumption
 
-example (a b : Point) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
+example (a b : Points) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
   a = b := by ext <;> assumption
 
 
 
 
-namespace Point
+namespace Points
 
 /- **Operations**
 We can define operations on points, like addition. -/
 
-def add (a b : Point) : Point :=
+def add (a b : Points) : Points :=
   { x := a.x + b.x, y := a.y + b.y, z := a.z + b.z }
 
-def add' : Point → Point → Point :=
+def add' : Points → Points → Points :=
   fun ⟨ux, uy, uz⟩ ⟨vx, vy, vz⟩ ↦ ⟨ux + vx, uy + vy, uz + vz⟩
 
 /-
 **Projection Notation**
-We define these operations in `namespace Point`.
+We define these operations in `namespace Points`.
 This means that if this namespace is open we can write `add p q`,
-but if the namespace isn't open, we have to write `Point.add p q`.
+but if the namespace isn't open, we have to write `Points.add p q`.
 In either case, we can use the *projection notation*, `p.add q`
-where `p q : Point`.
-Lean knows that we mean the function `Point.add`,
-by looking at the type of `p`, which is `Point`. -/
+where `p q : Points`.
+Lean knows that we mean the function `Points.add`,
+by looking at the type of `p`, which is `Points`. -/
 
 #check add myPoint1 myPoint2
 #check myPoint1.add myPoint2
 
-end Point
+end Points
 
-#check Point.add myPoint1 myPoint2
+#check Points.add myPoint1 myPoint2
 #check myPoint1.add myPoint2
 
-open Point
+open Points
 
 #check add myPoint1 myPoint2
 
 
-namespace Point
+namespace Points
 
 /- We can prove properties about points.
-`protected` means that even in the namespace `Point`
-we still have to write `Point.add_commutative` -/
+`protected` means that even in the namespace `Points`
+we still have to write `Points.add_commutative` -/
 
-protected lemma add_commutative (a b : Point) : add a b = add b a := by
+protected lemma add_commutative (a b : Points) : add a b = add b a := by
   simp_rw [add, add_comm]
 
-#check Point.add_commutative
+#check Points.add_commutative
 
 /- We can also state that we want to use the `+` notation here.
 In that case, we have to write lemmas stating how `+` computes. -/
 
-instance : Add Point := ⟨add⟩
+instance : Add Points := ⟨add⟩
 
-@[simp] lemma add_x (a b : Point) : (a + b).x = a.x + b.x := by rfl
-@[simp] lemma add_y (a b : Point) : (a + b).y = a.y + b.y := by rfl
-@[simp] lemma add_z (a b : Point) : (a + b).z = a.z + b.z := by rfl
+@[simp] lemma add_x (a b : Points) : (a + b).x = a.x + b.x := by rfl
+@[simp] lemma add_y (a b : Points) : (a + b).y = a.y + b.y := by rfl
+@[simp] lemma add_z (a b : Points) : (a + b).z = a.z + b.z := by rfl
 
-example (a b : Point) : a + b = b + a := by ext <;> simp [add_comm]
+example (a b : Points) : a + b = b + a := by ext <;> simp [add_comm]
 
-end Point
+end Points
 
 
 
@@ -139,7 +139,7 @@ end Point
 
 /- ### Structures with properties -/
 
-structure PosPoint where
+structure PosPoints where
   x : ℝ
   y : ℝ
   z : ℝ
@@ -147,7 +147,7 @@ structure PosPoint where
   y_pos : 0 < y
   z_pos : 0 < z
 
-def PointPoint.add (a b : PosPoint) : PosPoint :=
+def PointsPoints.add (a b : PosPoints) : PosPoints :=
 { x := a.x + b.x
   y := a.y + b.y
   z := a.z + b.z
@@ -158,13 +158,13 @@ def PointPoint.add (a b : PosPoint) : PosPoint :=
 /- **extends**:
 We can use the `extends` keyword to remove some code duplication. -/
 
-structure PosPoint' extends Point where
+structure PosPoints' extends Points where
   x_pos : 0 < x
   y_pos : 0 < y
   z_pos : 0 < z
 
-def PointPoint'.add (a b : PosPoint') : PosPoint' :=
-{ a.toPoint + b.toPoint with
+def PointsPoints'.add (a b : PosPoints') : PosPoints' :=
+{ a.toPoints + b.toPoints with
   x_pos := by dsimp; linarith [a.x_pos, b.x_pos]
   y_pos := by dsimp; linarith [a.y_pos, b.y_pos]
   z_pos := by dsimp; linarith [a.z_pos, b.z_pos] }
@@ -192,14 +192,14 @@ example (x : PosReal) : x.1 > 0 := x.2
 
 /- ### Structures with parameters -/
 
-@[ext] structure Triple (α : Type*) where
+@[ext] structure Triples (α : Type*) where
   x : α
   y : α
   z : α
 
-#check Triple.mk 1 2 3
+#check Triples.mk 1 2 3
 
-#check Triple.mk sin cos tan
+#check Triples.mk sin cos tan
 
 
 
@@ -406,8 +406,8 @@ Then state and prove the lemma that for any object in this class we have `∀ z,
 
 
 
-/- 2. Define scalar multiplication of a real number and a `Point`.
-Also define scalar multiplication of a positive real number and a `PosPoint`. -/
+/- 2. Define scalar multiplication of a real number and a term of type `Points`.
+Also define scalar multiplication of a positive real number and a term of type `PosPoints`. -/
 
 
 
@@ -420,12 +420,12 @@ constant gives another Pythagorean triple. -/
 /- 4. Prove that triples of equivalent types are equivalent.
 `≃` is the type of equivalences / bijections between two types. -/
 
-example (α β : Type*) (e : α ≃ β) : Triple α ≃ Triple β := sorry
+example (α β : Type*) (e : α ≃ β) : Triples α ≃ Triples β := sorry
 
 
 /- 5. Show that if `G` is an abelian group then triples with elements of `G` is an abelian group. -/
 
-example (G : Type*) [AbelianGroup G] : AbelianGroup (Triple G) := sorry
+example (G : Type*) [AbelianGroup G] : AbelianGroup (Triples G) := sorry
 
 
 
