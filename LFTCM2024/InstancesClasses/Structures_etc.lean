@@ -58,9 +58,6 @@ def myPoint4 : Points := ⟨1, 2, 3⟩
 
 def myPoint5 := Points.mk 1 2 3
 
-
-
-
 /- **Proving equality**:
 We can prove that two points are equal using the `ext` tactic. -/
 
@@ -71,9 +68,6 @@ example (a b : Points) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
 
 example (a b : Points) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) :
   a = b := by ext <;> assumption
-
-
-
 
 namespace Points
 
