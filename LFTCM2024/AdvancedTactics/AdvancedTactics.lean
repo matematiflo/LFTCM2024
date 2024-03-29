@@ -22,6 +22,10 @@ open Real
 `lemma Continuous.add {f g : ℝ → ℝ} (hf : Continuous f) (hg : Continuous g) : Continuous (f + g)`
 -/
 
+-- The next two examples work just as well with `apply`.
+-- Maybe a previous version of `apply` did not do that?
+-- Or maybe someone just did not like the name `apply` for this tactic and wrote `refine`?
+
 example : Continuous (sin + cos) := by
   /- To prove this, the natural thing to do is to first use the above lemma, and then afterwards
   deal with the fact that cos and sin are individually continuous. -/
